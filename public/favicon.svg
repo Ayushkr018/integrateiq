@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <!-- Dark navy-to-midnight-purple background gradient -->
+    <linearGradient id="bg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a0f2e"/>
+      <stop offset="60%" stop-color="#0f0c3a"/>
+      <stop offset="100%" stop-color="#1a0a38"/>
+    </linearGradient>
+    <!-- Cyan-to-violet gradient for the IQ monogram -->
+    <linearGradient id="iq" x1="3" y1="7" x2="29" y2="25" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="55%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <!-- Subtle inner glow for the background -->
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Rounded-square background (app-icon style) -->
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+  <!-- Subtle inner glow -->
+  <rect width="32" height="32" rx="7" fill="url(#glow)"/>
+  <!-- Thin border for crispness -->
+  <rect x="0.75" y="0.75" width="30.5" height="30.5" rx="6.5" stroke="url(#iq)" stroke-width="0.6" fill="none" opacity="0.25"/>
+
+  <!-- ── I  letter ──────────────────────────────────── -->
+  <!-- Top bar -->
+  <rect x="4" y="8" width="9" height="2.5" rx="1.25" fill="url(#iq)"/>
+  <!-- Stem -->
+  <rect x="7.25" y="10.5" width="2.5" height="11" rx="1.25" fill="url(#iq)"/>
+  <!-- Bottom bar -->
+  <rect x="4" y="21.5" width="9" height="2.5" rx="1.25" fill="url(#iq)"/>
+
+  <!-- ── Q  letter ──────────────────────────────────── -->
+  <!-- Circle ring -->
+  <circle cx="22" cy="15.5" r="6" stroke="url(#iq)" stroke-width="2.2" fill="none"/>
+  <!-- Tail (bottom-right diagonal) -->
+  <line x1="25.4" y1="19.4" x2="28.2" y2="22.8" stroke="url(#iq)" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
