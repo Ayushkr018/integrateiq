@@ -95,7 +95,7 @@ export default function UploadParse() {
       <h1 className="text-[28px] font-bold tracking-[-0.04em] text-foreground">Upload & Parse</h1>
       <p className="text-sm text-muted-foreground mt-1">Extract integration requirements from your documents</p>
 
-      <div className="mt-6" style={{ display: 'grid', gridTemplateColumns: result ? '40fr 60fr' : '1fr', gap: '24px' }}>
+      <div className={`mt-6 grid gap-6 ${result ? 'grid-cols-1 lg:grid-cols-[40fr_60fr]' : 'grid-cols-1'}`}>
         {/* Left column - Upload */}
         <div className="space-y-4">
           {!file ? (

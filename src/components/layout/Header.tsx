@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Search, Sun, Moon, Bell } from 'lucide-react';
+import { Search, Sun, Moon, Bell, Menu } from 'lucide-react';
 import { useAppStore } from '@/stores/appStore';
 import { useState, useEffect, useCallback } from 'react';
 import { CommandPalette } from './CommandPalette';
@@ -21,7 +21,7 @@ const PAGE_NAMES: Record<string, string> = {
 
 export function Header() {
   const location = useLocation();
-  const { theme, toggleTheme, tenantName } = useAppStore();
+  const { theme, toggleTheme, tenantName, toggleMobileSidebar } = useAppStore();
   const [cmdOpen, setCmdOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const pageName = PAGE_NAMES[location.pathname] || 'Page';
@@ -49,25 +49,34 @@ export function Header() {
 
   return (
     <>
-      <header className="h-14 border-b border-border flex items-center justify-between px-5 bg-card/50 backdrop-blur-sm shrink-0">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm">
-          <span className="surface-chip px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">{tenantName}</span>
-          <span className="text-muted-foreground/40">/</span>
-          <motion.span key={pageName} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
-            className="font-medium text-foreground">{pageName}</motion.span>
+      <header className="h-14 border-b border-border flex items-center justify-between px-3 sm:px-5 bg-card/50 backdrop-blur-sm shrink-0 gap-2">
+        {/* Mobile hamburger + Breadcrumb */}
+        <div className="flex items-center gap-2 min-w-0">
+          <button
+            onClick={toggleMobileSidebar}
+            className="md:hidden surface-chip p-2 text-muted-foreground transition-colors hover:text-foreground shrink-0"
+            aria-label="Open menu"
+          >
+            <Menu size={16} />
+          </button>
+          <div className="flex items-center gap-2 text-sm min-w-0">
+            <span className="surface-chip px-2.5 py-1 text-[11px] font-semibold text-muted-foreground hidden sm:inline-flex shrink-0">{tenantName}</span>
+            <span className="text-muted-foreground/40 hidden sm:inline">/</span>
+            <motion.span key={pageName} initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+              className="font-medium text-foreground truncate">{pageName}</motion.span>
+          </div>
         </div>
 
         {/* Search */}
         <button onClick={() => setCmdOpen(true)}
-          className="surface-chip hidden items-center gap-2 px-3 py-1.5 text-sm text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:text-foreground md:flex">
+          className="surface-chip hidden items-center gap-2 px-3 py-1.5 text-sm text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:text-foreground md:flex shrink-0">
           <Search size={14} />
           <span>Search...</span>
           <kbd className="text-[10px] bg-muted px-1.5 py-0.5 font-mono">⌘K</kbd>
         </button>
 
         {/* Right actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <motion.button whileTap={{ scale: 0.95 }} onClick={toggleTheme}
             className="surface-chip p-2 text-muted-foreground transition-colors hover:text-foreground">
             {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
@@ -84,10 +93,10 @@ export function Header() {
             )}
           </motion.button>
 
-          <div className="w-px h-6 bg-border mx-1" />
+          <div className="w-px h-6 bg-border mx-0.5 hidden sm:block" />
 
           <motion.div whileHover={{ scale: 1.05 }}
-            className="w-9 h-9 flex items-center justify-center rounded-[14px] text-xs font-bold text-primary-foreground cursor-pointer shadow-lg"
+            className="w-9 h-9 flex items-center justify-center rounded-[14px] text-xs font-bold text-primary-foreground cursor-pointer shadow-lg shrink-0"
             style={{ background: 'linear-gradient(135deg, hsl(var(--iq-violet)), hsl(var(--iq-cyan)))' }}>
             AB
           </motion.div>

@@ -64,13 +64,13 @@ export default function Settings() {
         <p className="text-sm text-muted-foreground mt-1">Workspace preferences, security posture, and UI behavior applied globally</p>
       </motion.div>
 
-      <div className="grid gap-6" style={{ gridTemplateColumns: '220px 1fr' }}>
-        <motion.div variants={fadeUp} className="space-y-1">
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-[220px_1fr]">
+        <motion.div variants={fadeUp} className="flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0">
           {TABS.map((tab) => (
             <motion.button key={tab.id} whileHover={{ x: 3 }} whileTap={{ scale: 0.97 }}
               onClick={() => setActiveTab(tab.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 text-sm transition-all
-                ${activeTab === tab.id ? 'bg-accent text-foreground border-l-2 border-primary' : 'text-muted-foreground hover:text-foreground hover:bg-accent/30'}`}>
+              className={`flex items-center gap-2 md:gap-3 px-3 py-2 md:py-2.5 text-sm transition-all whitespace-nowrap shrink-0 md:w-full rounded-lg md:rounded-none
+                ${activeTab === tab.id ? 'bg-accent text-foreground md:border-l-2 md:border-primary' : 'text-muted-foreground hover:text-foreground hover:bg-accent/30'}`}>
               <tab.icon size={16} />
               {tab.label}
             </motion.button>
@@ -92,8 +92,8 @@ export default function Settings() {
                     { label: 'Plan', value: 'Enterprise', editable: false },
                     { label: 'Region', value: 'ap-south-1 (Mumbai)', editable: false },
                   ].map((f) => (
-                    <div key={f.label} className="grid gap-2" style={{ gridTemplateColumns: '160px 1fr' }}>
-                      <span className="text-xs text-muted-foreground py-2">{f.label}</span>
+                    <div key={f.label} className="grid gap-2 grid-cols-1 sm:grid-cols-[160px_1fr]">
+                      <span className="text-xs text-muted-foreground sm:py-2">{f.label}</span>
                       <input value={f.value} readOnly={!f.editable}
                         onChange={(event) => {
                           if (!f.editable || !("field" in f) || !f.field) return;
@@ -146,7 +146,7 @@ export default function Settings() {
                         </div>
                         <span className="text-xs text-muted-foreground">{k.provider}</span>
                       </div>
-                      <span className="text-xs font-mono text-muted-foreground">{showKey[k.id] ? 'sk-live-7f3d9a2e' : k.maskedValue}</span>
+                       <span className="hidden sm:inline text-xs font-mono text-muted-foreground shrink-0">{showKey[k.id] ? 'sk-live-7f3d9a2e' : k.maskedValue}</span>
                       <div className="flex items-center gap-1">
                         <button onClick={() => toggleKeyVisibility(k.id)} className="p-1.5 hover:bg-accent text-muted-foreground transition-colors">
                           {showKey[k.id] ? <EyeOff size={12} /> : <Eye size={12} />}
@@ -200,7 +200,7 @@ export default function Settings() {
                   <Shield size={14} className="text-primary" />
                   <span className="text-sm font-medium text-foreground">Encryption Status</span>
                 </div>
-                <div className="grid grid-cols-3 gap-4 mt-3">
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {[
                     { label: 'Data at Rest', value: 'AES-256', status: 'Encrypted' },
                     { label: 'Data in Transit', value: 'TLS 1.3', status: 'Secured' },
@@ -339,7 +339,7 @@ export default function Settings() {
               <div className="surface-panel p-5">
                 <span className="label-text text-muted-foreground">Security Posture</span>
                 <p className="mt-1 text-xs text-muted-foreground">A compact view of platform safeguards, runtime protections, and governance controls.</p>
-                <div className="mt-4 grid grid-cols-2 gap-3">
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
                     { label: 'RLS Policies', value: '9 tables protected', status: 'success' as const },
                     { label: 'Edge Function Auth', value: 'Service role enforced', status: 'success' as const },
