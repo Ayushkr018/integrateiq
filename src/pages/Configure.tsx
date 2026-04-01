@@ -173,30 +173,30 @@ export default function Configure() {
 
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-[28px] font-bold tracking-[-0.04em] text-foreground">Configure Integration</h1>
           <p className="text-sm text-muted-foreground mt-1">AI-powered step-by-step integration configuration wizard</p>
         </div>
         {!parsedResult && (
           <motion.button whileTap={{ scale: 0.97 }} onClick={() => navigate('/upload')}
-            className="px-4 py-2 bg-primary text-primary-foreground text-sm font-medium flex items-center gap-2">
+            className="self-start sm:self-auto px-4 py-2 bg-primary text-primary-foreground text-sm font-medium flex items-center gap-2">
             Upload Document First <ArrowRight size={14} />
           </motion.button>
         )}
       </div>
 
       {/* Step indicator */}
-      <div className="flex items-center justify-center mt-8 mb-8">
+      <div className="flex items-center justify-center mt-8 mb-8 overflow-x-auto gap-0 flex-nowrap px-2">
         {STEPS.map((s, i) => (
-          <div key={s} className="flex items-center">
+          <div key={s} className="flex items-center shrink-0">
             <motion.div
               whileHover={{ scale: 1.1 }}
               onClick={() => {
                 if (i < step) setStep(i);
                 if (i === step + 1 && canGoNext()) setStep(i);
               }}
-              className={`w-9 h-9 flex items-center justify-center text-xs font-bold cursor-pointer rotate-45 transition-all
+              className={`w-9 h-9 flex items-center justify-center text-xs font-bold cursor-pointer rotate-45 transition-all shrink-0
                 ${i < step ? 'bg-iq-green text-background' :
                   i === step ? 'bg-primary text-primary-foreground glow-primary' :
                   'border border-border text-muted-foreground'}`}
@@ -204,7 +204,7 @@ export default function Configure() {
               <span className="-rotate-45">{i < step ? <Check size={14} /> : i + 1}</span>
             </motion.div>
             {i < STEPS.length - 1 && (
-              <div className={`w-20 h-[2px] mx-2 transition-colors ${i < step ? 'bg-iq-green' : 'bg-border'}`} />
+              <div className={`w-8 sm:w-20 h-[2px] mx-1 sm:mx-2 transition-colors shrink-0 ${i < step ? 'bg-iq-green' : 'bg-border'}`} />
             )}
           </div>
         ))}
@@ -302,7 +302,7 @@ export default function Configure() {
         {/* Step 1: Field Mapping */}
         {step === 1 && (
           <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            <div className="grid gap-6" style={{ gridTemplateColumns: '1fr 1fr' }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Source fields */}
               <div className="border border-border bg-card p-4">
                 <div className="flex items-center justify-between mb-3">
@@ -388,7 +388,7 @@ export default function Configure() {
         {/* Step 2: Config Preview */}
         {step === 2 && (
           <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            <div className="grid gap-6" style={{ gridTemplateColumns: '60fr 40fr' }}>
+            <div className="grid grid-cols-1 md:grid-cols-[60fr_40fr] gap-6">
               <div className="border border-border bg-card p-4 relative">
                 <div className="flex items-center justify-between mb-3">
                   <span className="label-text text-muted-foreground">Configuration JSON</span>
@@ -434,7 +434,7 @@ export default function Configure() {
         {step === 3 && (
           <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
             className="space-y-4">
-            <div className="grid gap-4" style={{ gridTemplateColumns: '1fr 1fr' }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="border border-border bg-card p-4">
                 <span className="label-text text-muted-foreground">Request Payload</span>
                 <textarea value={simPayload} onChange={(e) => setSimPayload(e.target.value)}

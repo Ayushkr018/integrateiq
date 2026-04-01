@@ -258,8 +258,8 @@ export default function Dashboard() {
 
           <DashboardSection title="Adapter Ecosystem" subtitle="Distribution of adapter coverage by business domain.">
             {adaptersByCategory && adaptersByCategory.length > 0 ? (
-              <div className="flex items-center gap-6">
-                <div className="w-[180px] shrink-0">
+              <div className="flex flex-col sm:flex-row items-center gap-6">
+                <div className="w-full sm:w-[180px] shrink-0">
                   <ResponsiveContainer width="100%" height={160}>
                     <PieChart>
                       <Pie data={adaptersByCategory} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={70} strokeWidth={0}>

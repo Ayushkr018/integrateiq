@@ -81,7 +81,7 @@ export default function AdapterCatalog() {
       {isLoading ? (
         <div className="flex items-center justify-center py-16"><GeometricSpinner size={40} /></div>
       ) : (
-        <div className="grid grid-cols-3 gap-4 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
           {filtered.map((adapter, i) => {
             const versions = adapter.adapter_versions || [];
             const latest = versions.find((v: any) => !v.deprecated) || versions[0];
@@ -96,8 +96,7 @@ export default function AdapterCatalog() {
                 animate="show"
                 transition={{ delay: i * 0.04 }}
                 whileHover={{ y: -3 }}
-                className={`border border-border bg-card relative group transition-shadow hover:shadow-lg
-                  ${i === 0 ? 'col-span-3' : ''}`}
+                className={`border border-border bg-card relative group transition-shadow hover:shadow-lg`}
                 style={{ '--glow-color': color } as any}
               >
                 {/* Top accent */}
@@ -181,7 +180,7 @@ export default function AdapterCatalog() {
             );
           })}
           {filtered.length === 0 && (
-            <div className="col-span-3 py-16 text-center text-sm text-muted-foreground">
+            <div className="col-span-full py-16 text-center text-sm text-muted-foreground">
               No adapters found matching your criteria.
             </div>
           )}

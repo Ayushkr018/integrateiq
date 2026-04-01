@@ -65,12 +65,12 @@ export default function AuditLog() {
 
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-[28px] font-bold tracking-[-0.04em] text-foreground">Audit Log</h1>
           <p className="text-sm text-muted-foreground mt-1">Complete platform activity trail</p>
         </div>
-        <div className="relative" ref={exportRef}>
+        <div className="relative self-start sm:self-auto" ref={exportRef}>
           <button onClick={() => setExportOpen(!exportOpen)}
             className="px-4 py-2 bg-primary text-primary-foreground text-sm rounded-full flex items-center gap-2 shadow-lg shadow-primary/20">
             <Download size={14} /> Download Report <ChevronDown size={12} className={`transition-transform ${exportOpen ? 'rotate-180' : ''}`} />
@@ -103,32 +103,29 @@ export default function AuditLog() {
       </div>
 
       {/* Timeline */}
-      <div className="mt-6 relative">
-        <div className="absolute left-1/2 top-0 bottom-0 w-px" style={{ background: 'linear-gradient(to bottom, hsl(var(--iq-violet)), transparent)' }} />
-
-        <div className="space-y-4">
+      <div className="mt-6">
+        {/* Mobile/small: simple vertical list */}
+        <div className="block lg:hidden space-y-3">
           {filtered.map((log, i) => {
-            const isLeft = i % 2 === 0;
             const expanded = expandedId === log.id;
             return (
               <motion.div key={log.id}
-                initial={{ opacity: 0, x: isLeft ? -16 : 16 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
-                className={`flex items-start gap-4 ${isLeft ? 'pr-[52%]' : 'pl-[52%]'}`}>
-
-                <div className="absolute left-1/2 -translate-x-1/2 mt-2">
-                  <div className={`w-3 h-3 rounded-full ${ACTION_COLORS[log.action] || 'bg-primary'}`} />
+                className="flex items-start gap-3">
+                <div className="flex flex-col items-center shrink-0">
+                  <div className={`w-3 h-3 rounded-full mt-1 ${ACTION_COLORS[log.action] || 'bg-primary'}`} />
+                  <div className="w-px flex-1 bg-border mt-1" />
                 </div>
-
-                <div className={`w-full surface-panel p-4 ${isLeft ? 'text-right' : ''}`}>
-                  <div className={`flex items-center gap-2 ${isLeft ? 'flex-row-reverse' : ''}`}>
+                <div className="w-full surface-panel p-3 mb-3">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-sm font-medium text-foreground capitalize">{log.action?.replace(/_/g, ' ')}</span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-muted-foreground ml-auto">
                       {log.created_at ? formatDistanceToNow(new Date(log.created_at), { addSuffix: true }) : ''}
                     </span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1 font-mono">
+                  <p className="text-xs text-muted-foreground mt-1 font-mono break-all">
                     {log.entity_type}: {log.entity_id?.substring(0, 12)}...
                   </p>
                   <button onClick={() => setExpandedId(expanded ? null : log.id)}
@@ -145,6 +142,52 @@ export default function AuditLog() {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Desktop: alternating timeline */}
+        <div className="hidden lg:block relative">
+          <div className="absolute left-1/2 top-0 bottom-0 w-px" style={{ background: 'linear-gradient(to bottom, hsl(var(--iq-violet)), transparent)' }} />
+
+          <div className="space-y-4">
+            {filtered.map((log, i) => {
+              const isLeft = i % 2 === 0;
+              const expanded = expandedId === log.id;
+              return (
+                <motion.div key={log.id}
+                  initial={{ opacity: 0, x: isLeft ? -16 : 16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.03 }}
+                  className={`flex items-start gap-4 ${isLeft ? 'pr-[52%]' : 'pl-[52%]'}`}>
+
+                  <div className="absolute left-1/2 -translate-x-1/2 mt-2">
+                    <div className={`w-3 h-3 rounded-full ${ACTION_COLORS[log.action] || 'bg-primary'}`} />
+                  </div>
+
+                  <div className={`w-full surface-panel p-4 ${isLeft ? 'text-right' : ''}`}>
+                    <div className={`flex items-center gap-2 ${isLeft ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-sm font-medium text-foreground capitalize">{log.action?.replace(/_/g, ' ')}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {log.created_at ? formatDistanceToNow(new Date(log.created_at), { addSuffix: true }) : ''}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1 font-mono">
+                      {log.entity_type}: {log.entity_id?.substring(0, 12)}...
+                    </p>
+                    <button onClick={() => setExpandedId(expanded ? null : log.id)}
+                      className="text-xs text-primary mt-2 flex items-center gap-1 hover:underline">
+                      <ChevronDown size={10} className={expanded ? 'rotate-180' : ''} />
+                      {expanded ? 'Hide' : 'Details'}
+                    </button>
+                    {expanded && log.payload && (
+                      <pre className="text-[10px] font-mono bg-muted/30 p-2 mt-2 overflow-auto max-h-32 text-left rounded-lg text-foreground">
+                        {JSON.stringify(log.payload, null, 2)}
+                      </pre>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
         {(!filtered || filtered.length === 0) && (

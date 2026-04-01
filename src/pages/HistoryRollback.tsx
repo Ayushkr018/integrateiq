@@ -63,7 +63,7 @@ export default function HistoryRollback() {
       <h1 className="text-[28px] font-bold tracking-[-0.04em] text-foreground">History & Rollback</h1>
       <p className="text-sm text-muted-foreground mt-1">View configuration versions and rollback changes</p>
 
-      <div className="mt-6 grid gap-6" style={{ gridTemplateColumns: '40fr 60fr' }}>
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Config list */}
         <div className="space-y-2">
           <span className="label-text text-muted-foreground">Configurations</span>

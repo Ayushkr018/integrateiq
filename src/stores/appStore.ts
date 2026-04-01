@@ -53,6 +53,7 @@ interface AppState {
   tenantSlug: string;
   notificationPrefs: NotificationPreferences;
   sidebarCollapsed: boolean;
+  sidebarMobileOpen: boolean;
   parsedResult: ParsedResult | null;
   matchedAdapters: MatchedAdapter[] | null;
   currentConfigId: string | null;
@@ -64,6 +65,8 @@ interface AppState {
   updateTenantInfo: (tenant: { tenantName: string; tenantSlug: string }) => void;
   setNotificationPref: (key: keyof NotificationPreferences, value: boolean) => void;
   toggleSidebar: () => void;
+  toggleMobileSidebar: () => void;
+  closeMobileSidebar: () => void;
   setParsedResult: (r: ParsedResult | null) => void;
   setMatchedAdapters: (a: MatchedAdapter[] | null) => void;
   setCurrentConfigId: (id: string | null) => void;
@@ -124,6 +127,7 @@ if (typeof document !== 'undefined') {
 export const useAppStore = create<AppState>((set) => ({
   ...persistedUiState,
   sidebarCollapsed: false,
+  sidebarMobileOpen: false,
   parsedResult: null,
   matchedAdapters: null,
   currentConfigId: null,
@@ -226,6 +230,8 @@ export const useAppStore = create<AppState>((set) => ({
     return { notificationPrefs };
   }),
   toggleSidebar: () => set((s) => ({ sidebarCollapsed: !s.sidebarCollapsed })),
+  toggleMobileSidebar: () => set((s) => ({ sidebarMobileOpen: !s.sidebarMobileOpen })),
+  closeMobileSidebar: () => set({ sidebarMobileOpen: false }),
   setParsedResult: (parsedResult) => set({ parsedResult }),
   setMatchedAdapters: (matchedAdapters) => set({ matchedAdapters }),
   setCurrentConfigId: (currentConfigId) => set({ currentConfigId }),

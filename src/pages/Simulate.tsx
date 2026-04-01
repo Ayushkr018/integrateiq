@@ -104,7 +104,7 @@ export default function Simulate() {
         )}
 
         {result && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid gap-4" style={{ gridTemplateColumns: '1fr 1fr' }}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="border border-border bg-card p-4">
               <span className="label-text text-muted-foreground">Request</span>
               <pre className="text-xs font-mono mt-2 overflow-auto max-h-48 text-foreground">{payload}</pre>
@@ -162,7 +162,7 @@ export default function Simulate() {
                     <ChevronDown size={12} className={`text-muted-foreground transition-transform ${expandedSim === s.id ? 'rotate-180' : ''}`} />
                   </button>
                   {expandedSim === s.id && (
-                    <div className="px-3 pb-3 grid gap-2" style={{ gridTemplateColumns: '1fr 1fr' }}>
+                    <div className="px-3 pb-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
                       <div><span className="label-text text-muted-foreground text-[10px]">Request</span>
                         <pre className="text-[10px] font-mono bg-muted/30 p-2 mt-1 overflow-auto max-h-32 text-foreground">{JSON.stringify(s.request_payload, null, 2)}</pre>
                       </div>

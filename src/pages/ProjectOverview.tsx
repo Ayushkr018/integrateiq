@@ -135,7 +135,7 @@ export default function ProjectOverview() {
       </motion.div>
 
       {/* Stats Grid */}
-      <motion.div variants={fadeUp} className="grid grid-cols-5 gap-4">
+      <motion.div variants={fadeUp} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         {[
           { label: 'Adapters', value: tableStats?.adapters ?? 0, icon: Layers, color: 'violet' as const },
           { label: 'Configurations', value: tableStats?.configs ?? 0, icon: Server, color: 'cyan' as const },
@@ -156,7 +156,7 @@ export default function ProjectOverview() {
       </motion.div>
 
       {/* Main Grid: Architecture + Security */}
-      <div className="grid gap-6" style={{ gridTemplateColumns: '55fr 45fr' }}>
+      <div className="grid grid-cols-1 md:grid-cols-[55fr_45fr] gap-6">
         {/* Architecture Layers */}
         <motion.div variants={fadeUp}>
           <GlassCard hover={false} accent="violet" className="p-5">
@@ -214,7 +214,7 @@ export default function ProjectOverview() {
       <motion.div variants={fadeUp}>
         <GlassCard hover={false} accent="cyan" className="p-5">
           <span className="label-text text-muted-foreground">Technology Stack</span>
-          <div className="grid grid-cols-4 gap-3 mt-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
             {TECH_STACK.map((tech, i) => (
               <motion.div
                 key={tech.name}
@@ -240,7 +240,7 @@ export default function ProjectOverview() {
       <motion.div variants={fadeUp}>
         <GlassCard hover={false} accent="amber" className="p-5">
           <span className="label-text text-muted-foreground">Edge Functions</span>
-          <div className="grid grid-cols-5 gap-3 mt-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-4">
             {['parse-document', 'match-adapters', 'generate-config', 'simulate', 'rollback-config'].map((fn, i) => (
               <motion.div
                 key={fn}
