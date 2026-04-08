@@ -57,6 +57,8 @@ interface AppState {
   parsedResult: ParsedResult | null;
   matchedAdapters: MatchedAdapter[] | null;
   currentConfigId: string | null;
+  notifUnreadCount: number;
+  setNotifUnreadCount: (count: number) => void;
   setTheme: (theme: ThemeMode) => void;
   toggleTheme: () => void;
   setAccent: (accent: AccentTone) => void;
@@ -131,6 +133,8 @@ export const useAppStore = create<AppState>((set) => ({
   parsedResult: null,
   matchedAdapters: null,
   currentConfigId: null,
+  notifUnreadCount: 0,
+  setNotifUnreadCount: (count) => set({ notifUnreadCount: count }),
   setTheme: (theme) => set((state) => {
     const nextState: PersistedUiState = {
       theme,

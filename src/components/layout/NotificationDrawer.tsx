@@ -66,6 +66,7 @@ export function NotificationDrawer({ open, onClose }: { open: boolean; onClose: 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
   const notificationPrefs = useAppStore((state) => state.notificationPrefs);
+  const setNotifUnreadCount = useAppStore((state) => state.setNotifUnreadCount);
 
   const allowsNotification = (action?: string) => {
     if (!action) return notificationPrefs.auditEvents;
@@ -99,6 +100,10 @@ export function NotificationDrawer({ open, onClose }: { open: boolean; onClose: 
 
   const markAllRead = () => setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   const unreadCount = notifications.filter((n) => !n.read).length;
+
+  useEffect(() => {
+    setNotifUnreadCount(unreadCount);
+  }, [unreadCount, setNotifUnreadCount]);
   const filtered = filter === 'unread' ? notifications.filter((n) => !n.read) : notifications;
 
   return (

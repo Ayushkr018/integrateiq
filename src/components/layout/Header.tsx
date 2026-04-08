@@ -5,8 +5,6 @@ import { useAppStore } from '@/stores/appStore';
 import { useState, useEffect, useCallback } from 'react';
 import { CommandPalette } from './CommandPalette';
 import { NotificationDrawer } from './NotificationDrawer';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
 
 const PAGE_NAMES: Record<string, string> = {
   '/': 'Dashboard',
@@ -21,19 +19,10 @@ const PAGE_NAMES: Record<string, string> = {
 
 export function Header() {
   const location = useLocation();
-  const { theme, toggleTheme, tenantName, toggleMobileSidebar } = useAppStore();
+  const { theme, toggleTheme, tenantName, toggleMobileSidebar, notifUnreadCount } = useAppStore();
   const [cmdOpen, setCmdOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const pageName = PAGE_NAMES[location.pathname] || 'Page';
-
-  const { data: unreadCount } = useQuery({
-    queryKey: ['unread-notif-count'],
-    queryFn: async () => {
-      const { count } = await supabase.from('audit_logs').select('*', { count: 'exact', head: true });
-      return count ?? 0;
-    },
-    refetchInterval: 15000,
-  });
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -85,10 +74,10 @@ export function Header() {
           <motion.button whileTap={{ scale: 0.95 }} onClick={() => setNotifOpen(true)}
             className="surface-chip relative p-2 text-muted-foreground transition-colors hover:text-foreground">
             <Bell size={16} />
-            {(unreadCount ?? 0) > 0 && (
+            {notifUnreadCount > 0 && (
               <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }}
                 className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-iq-red text-[9px] text-primary-foreground font-bold px-1 shadow-lg shadow-destructive/20">
-                {(unreadCount ?? 0) > 99 ? '99+' : unreadCount}
+                {notifUnreadCount > 99 ? '99+' : notifUnreadCount}
               </motion.span>
             )}
           </motion.button>
@@ -98,7 +87,7 @@ export function Header() {
           <motion.div whileHover={{ scale: 1.05 }}
             className="w-9 h-9 flex items-center justify-center rounded-[14px] text-xs font-bold text-primary-foreground cursor-pointer shadow-lg shrink-0"
             style={{ background: 'linear-gradient(135deg, hsl(var(--iq-violet)), hsl(var(--iq-cyan)))' }}>
-            AB
+            CG1
           </motion.div>
         </div>
       </header>
